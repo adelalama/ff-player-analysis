@@ -1,19 +1,29 @@
-import nfl_data_py as nfl
+import nflreadpy as nfl
 
 seasons = [2019, 2020, 2021, 2022, 2023]
-#data = nfl.import_seasonal_data(seasons)
-weekly = nfl.import_weekly_data(seasons)
 
-# #season
-# print(data['season'].unique())
-# print(data.shape)
-# print(data.columns.tolist())
-# print(data.head())
+players = nfl.load_player_stats(seasons)
+players = players.to_pandas()
+
+# print(players.shape)
+# print(players.head())
+# print(players.columns)
+# # print(players['season'])
+# # # solid_players = players['fantasy_points'] > 25
+# # # print(solid_players)
+# #
+# print(players[players['fantasy_points']>25])
+
+# print(players['season'].unique())
+
+# print(players.columns)
+# print(players['season_type'].head())
 
 
-# weekly
-print(weekly['position'].unique())
-print(weekly.columns.tolist())
+players_clean = players[players['season_type'] == "REG"]
+players_clean = players_clean[['player_id', 'player_display_name', 'position', 'season',
+                               'week', 'team', 'fantasy_points_ppr']]
 
-# cmc = weekly['player_name'] == 'McCaffrey'
-# print(cmc)
+print(players_clean.shape)
+print(players_clean.head())
+
