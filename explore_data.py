@@ -24,4 +24,15 @@ season_totals = position_filter.groupby(['player_id', 'player_display_name', 'po
 season_totals['rank'] = season_totals.groupby(['season', 'position'])['fantasy_points_ppr'].rank(ascending=False)
 
 fantasy_starters = season_totals[season_totals['rank'] <= season_totals['position'].map(position_starters)]
-print(fantasy_starters.shape)
+
+yearly_position_mean =  fantasy_starters.groupby(['position', 'season'])['fantasy_points_ppr'].mean().reset_index()
+yearly_position_mean = yearly_position_mean.rename(columns={'fantasy_points_ppr': 'position_starter_mean'})
+
+fantasy_starters = fantasy_starters.merge(yearly_position_mean, on =['position', 'season'])
+fantasy_starters['mean_differential'] = fantasy_starters['fantasy_points_ppr'] - fantasy_starters['position_starter_mean']
+fantasy_starters = fantasy_starters.sort_values(by=['season', 'position', 'rank'])
+fantasy_starters['rank'] = fantasy_starters['rank'].astype(int)
+fantasy_starters = fantasy_starters[['rank', 'player_display_name', 'team', 'position', 'season', 'fantasy_points_ppr',
+                                     'position_starter_mean', 'mean_differential']].reset_index(drop=True)
+print(fantasy_starters.head(20))
+
