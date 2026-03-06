@@ -6,6 +6,7 @@ pd.set_option('display.width', 200)
 
 seasons = [2019, 2020, 2021, 2022, 2023]
 position_starters = {'QB': 12, 'RB': 24, 'WR': 24, 'TE': 12}
+position_depth = {'QB': 20, 'RB': 36, 'WR': 36, 'TE': 20}
 
 # Data loading
 players = nfl.load_player_stats(seasons)
@@ -36,3 +37,9 @@ fantasy_starters = fantasy_starters[['rank', 'player_display_name', 'team', 'pos
                                      'position_starter_mean', 'mean_differential']].reset_index(drop=True)
 
 fantasy_starters['season_label'] = fantasy_starters['season'].astype(str) + ' Season'
+
+#df for position depth
+
+flex_depth = season_totals[season_totals['rank'] <= season_totals['position'].map(position_depth)]
+
+print(flex_depth.head(20))
