@@ -15,10 +15,10 @@ players = players.to_pandas()
 players_clean = players[players['season_type'] == "REG"]
 players_clean = players_clean[['player_id', 'player_display_name', 'position', 'season',
                                'week', 'team', 'fantasy_points_ppr']]
-position_filter = players_clean[players_clean['position'].isin(['QB', 'WR', 'RB', 'TE'])]
+position_clean = players_clean[players_clean['position'].isin(['QB', 'WR', 'RB', 'TE'])]
 
 # Data transformation
-season_totals = position_filter.groupby(['player_id', 'player_display_name', 'position', 'season', 'team'])[
+season_totals = position_clean.groupby(['player_id', 'player_display_name', 'position', 'season', 'team'])[
     'fantasy_points_ppr'].sum().reset_index()
 
 season_totals['rank'] = season_totals.groupby(['season', 'position'])['fantasy_points_ppr'].rank(ascending=False)
@@ -34,5 +34,5 @@ fantasy_starters = fantasy_starters.sort_values(by=['season', 'position', 'rank'
 fantasy_starters['rank'] = fantasy_starters['rank'].astype(int)
 fantasy_starters = fantasy_starters[['rank', 'player_display_name', 'team', 'position', 'season', 'fantasy_points_ppr',
                                      'position_starter_mean', 'mean_differential']].reset_index(drop=True)
-print(fantasy_starters.head(20))
 
+fantasy_starters['season_label'] = fantasy_starters['season'].astype(str) + ' Season'
