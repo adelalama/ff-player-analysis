@@ -3,9 +3,10 @@ import pandas as pd
 import seaborn as sns
 from explore_data import fantasy_starters
 from explore_data import position_starters
-from explore_data import yearly_position_mean
+from explore_data import position_depth
 
-overall_position_mean = yearly_position_mean.groupby(['position'])['position_starter_mean'].mean()
+
+overall_position_mean = fantasy_starters.groupby(['position'])['position_starter_mean'].mean()
 
 sns.set_theme(style="darkgrid")
 fig, axes = plt.subplots(2,2, figsize=(14,10))
