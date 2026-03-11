@@ -15,3 +15,19 @@ def build_player_pool(season_totals, pool_dict, mean_dict):
 
     return player_pool
 
+def clean_name (name):
+    suffixes = ['Jr.', 'Sr.', 'III', 'II', 'IV']
+    special_chars = ["'",'-', '.']
+
+    for suffix in suffixes:
+        name = name.replace(suffix, '')
+
+    for special_char in special_chars:
+        name = name.replace(special_char, '')
+
+    name = name.lower()
+    name = name.strip()
+
+    return name
+
+
