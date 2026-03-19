@@ -6,6 +6,7 @@ from explore_data import flex_players
 from explore_data import position_starters
 from explore_data import flex_depth
 from explore_data import seasons
+from adp_data import outcome_counts
 
 
 
@@ -57,4 +58,17 @@ fig.suptitle('WR vs RB FLEX Value in PPR Leagues (2019-2023)',
              fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.savefig('images/flex_analysis.png', dpi=150, bbox_inches='tight' )
+plt.show()
+
+#bust/value visualizations
+
+sns.set_theme(style="darkgrid")
+
+sns.barplot(outcome_counts, x = 'draft_outcome' , y = 'count', hue = 'Position', order= ['Season Winner', 'Big Value',
+                                                                                         'Season Ender', 'Big Bust'] )
+plt.title('Draft Value/Bust by position 2019-2023', fontsize=14, fontweight='bold')
+plt.xlabel('Draft Outcome')
+plt.ylabel('Count')
+
+plt.tight_layout()
 plt.show()

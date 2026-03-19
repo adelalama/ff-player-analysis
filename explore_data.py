@@ -7,7 +7,7 @@ pd.set_option('display.width', 200)
 
 seasons = [2019, 2020, 2021, 2022, 2023]
 position_starters = {'QB': 12, 'RB': 24, 'WR': 24, 'TE': 12}
-flex_depth = {'QB': 20, 'RB': 36, 'WR': 36, 'TE': 20}
+flex_depth = {'QB': 24, 'RB': 60, 'WR': 60, 'TE': 24}
 
 # Data loading
 players = nfl.load_player_stats(seasons)
@@ -50,3 +50,6 @@ flex_players = build_player_pool(season_totals, flex_depth, position_starters)
 # flex_depth = season_totals[season_totals['rank'] <= season_totals['position'].map(position_depth)]
 #
 # print(fantasy_starters.head(20))
+# print(season_totals.groupby(['position', 'season']).size())
+# print(flex_players.shape)
+# print(flex_players.groupby(['position', 'season']).size())
