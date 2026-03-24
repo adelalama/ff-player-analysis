@@ -7,6 +7,7 @@ from explore_data import position_starters
 from explore_data import flex_depth
 from explore_data import seasons
 from adp_data import outcome_counts
+from adp_data import busts_by_round, values_by_round, season_winners, season_enders
 
 
 
@@ -64,11 +65,38 @@ plt.show()
 
 sns.set_theme(style="darkgrid")
 
-sns.barplot(outcome_counts, x = 'draft_outcome' , y = 'count', hue = 'Position', order= ['Season Winner', 'Big Value',
-                                                                                         'Season Ender', 'Big Bust'] )
+sns.barplot(outcome_counts, x = 'draft_outcome' , y = 'count', hue = 'Position', order= ['Season Winner', 'Big Value', 'Value',
+                                                                                         'Season Ender', 'Big Bust', 'Bust'] )
 plt.title('Draft Value/Bust by position 2019-2023', fontsize=14, fontweight='bold')
 plt.xlabel('Draft Outcome')
 plt.ylabel('Count')
 
 plt.tight_layout()
+plt.savefig('images/bust_value_by_position.png', dpi=150, bbox_inches='tight' )
 plt.show()
+
+#season winners enders by round
+
+sns.set_theme(style="darkgrid")
+fig, axes = plt.subplots(1,2, figsize=(12,8))
+
+for idx, (data, title) in enumerate(zip([season_enders, season_winners], ['Season Enders 2019-2023', 'Season Winners 2019-2023'])):
+    sns.barplot(data, x = 'adp_round', y = 'count', hue = 'position', ax=axes[idx], errorbar= None)
+
+    axes[idx].set_title(title)
+    axes[idx].set_xlabel('Round')
+    axes[idx].set_ylabel('Count')
+    axes[idx].legend()
+    current_labels = axes[idx].get_xticklabels()
+    axes[idx].set_xticks(axes[idx].get_xticks())
+    labels = ['Undrafted' if label.get_text() == '16.0' else int(float(label.get_text())) for label in current_labels]
+    axes[idx].set_xticklabels(labels)
+
+
+
+fig.suptitle('Season Enders & Winners by Draft Capital (2019-2023)',
+             fontsize=14, fontweight='bold')
+plt.tight_layout()
+plt.savefig('images/season_enders_winners_by_draft_capital.png', dpi=150, bbox_inches='tight' )
+plt.show()
+

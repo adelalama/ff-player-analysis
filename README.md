@@ -18,7 +18,7 @@ v2
 build draft outcome classifier (value/bust)
 bust by round visualization
 value by round visualization
-csv and markdown of value/busts
+csv and Markdown of value/busts
 
 v2.5 
 positional draft composition by round (first 3, % of picks going to which position)

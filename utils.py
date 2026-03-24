@@ -64,7 +64,7 @@ def classify_draft_outcome(row):
             return 'Big Value'
 
     elif position in ['RB', 'WR']:
-        if adp <= 8 and rank > 24:
+        if (adp <= 8 and rank > 24) or (9 <= adp <=14 and rank > 30):
             return 'Season Ender'
         elif 9 <= adp <= 36 and rank > 24:
             return 'Big Bust'
@@ -72,6 +72,10 @@ def classify_draft_outcome(row):
             return 'Season Winner'
         elif (37 <= adp <= 72 and rank <= 12) or (adp >= 74 and 13 <= rank <= 24):
             return 'Big Value'
+        elif 37<= adp <= 72  and 13<= rank <= 20:
+            return 'Value'
+        elif 37 <= adp <= 72 and rank > 36:
+            return 'Bust'
 
     return None
 
