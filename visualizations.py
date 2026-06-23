@@ -100,3 +100,27 @@ plt.tight_layout()
 plt.savefig('images/season_enders_winners_by_draft_capital.png', dpi=150, bbox_inches='tight' )
 plt.show()
 
+#busts/values by round
+
+sns.set_theme(style="darkgrid")
+fig, axes = plt.subplots(2,2, figsize=(12,8))
+axes = axes.flatten()
+
+for idx, (data, title) in enumerate(zip([busts_by_round[busts_by_round['draft_outcome'] == 'Big Bust'],
+                                         values_by_round[values_by_round['draft_outcome'] == 'Big Value'],
+                                         busts_by_round[busts_by_round['draft_outcome'] == 'Bust'],
+                                         values_by_round[values_by_round['draft_outcome'] =='Value']],
+                                        ['Big Bust by Round', 'Big Value by Round', 'Bust by Round','Value by Round'])):
+    sns.barplot(data, x = 'adp_round', y = 'count', hue = 'position', ax=axes[idx], errorbar= None)
+
+    axes[idx].set_title(title)
+    axes[idx].set_xlabel('Round')
+    axes[idx].set_ylabel('Count')
+    axes[idx].legend()
+
+
+fig.suptitle('Bust/Value by Round for each position (2019-2023)',
+             fontsize=14, fontweight='bold')
+plt.savefig('images/bust_value_by_round_for_position.png', dpi=150, bbox_inches='tight' )
+plt.tight_layout()
+plt.show()

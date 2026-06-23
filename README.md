@@ -28,3 +28,8 @@ v3
 how does nfl team win/loss record correlate with fantasy performance
 does a winning team = more fantasy points
 does a winning team help RB or WR more
+
+NOTES:
+WR is a sketch and risky position to draft. HUGE amount of big busts in round 2 and 3 why there are a HUGE number of big values on round 4. Never draft a wr round 2-3 unless you are CERTAIN of production. Always take a risk in round 4 with wr.
+In the same way drafting qb and te early is way to risky for the possible pay off you can get on both positions starting round 9ish. Thats on the big bust value side of things
+On the bust and value side of things, ithere is an implicit risk while drafting in these middle rounds, having informed decisions on these rounds is the difference between drafting a usefull player and a dud

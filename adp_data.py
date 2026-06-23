@@ -52,6 +52,7 @@ season_winners = outcome_by_round[outcome_by_round['draft_outcome'] == 'Season W
 busts_by_round = outcome_by_round[outcome_by_round['draft_outcome'].isin(['Big Bust', 'Bust'])]
 values_by_round = outcome_by_round[outcome_by_round['draft_outcome'].isin(['Big Value', 'Value'])]
 
+
 # print(season_winners[season_winners['adp_round'] == 16])
 # print(draft_adp_merged[(draft_adp_merged['position'] == 'RB') & (draft_adp_merged['adp_round']>=4) & (draft_adp_merged['adp_round']<=6) & (draft_adp_merged['rank']<18)].shape)
 # print(draft_adp_merged['draft_outcome'].value_counts())
