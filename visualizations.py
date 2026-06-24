@@ -6,7 +6,7 @@ from explore_data import flex_players
 from explore_data import position_starters
 from explore_data import flex_depth
 from explore_data import seasons
-from adp_data import outcome_counts
+from adp_data import outcome_counts, se_list
 from adp_data import busts_by_round, values_by_round, season_winners, season_enders
 
 
@@ -92,6 +92,10 @@ for idx, (data, title) in enumerate(zip([season_enders, season_winners], ['Seaso
     labels = ['Undrafted' if label.get_text() == '16.0' else int(float(label.get_text())) for label in current_labels]
     axes[idx].set_xticklabels(labels)
 
+
+axes[0].text(.285, 5.65, s=se_list, fontsize=10, bbox={'facecolor': '#EAEAF2', 'edgecolor': '#CCCCCC', 'boxstyle': 'round'})
+print(axes[0].get_xlim())
+print(axes[0].get_ylim())
 
 
 fig.suptitle('Season Enders & Winners by Draft Capital (2019-2023)',

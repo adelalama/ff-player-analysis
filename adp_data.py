@@ -53,6 +53,15 @@ busts_by_round = outcome_by_round[outcome_by_round['draft_outcome'].isin(['Big B
 values_by_round = outcome_by_round[outcome_by_round['draft_outcome'].isin(['Big Value', 'Value'])]
 
 
+#adding name tags to season enders
+se_list = ("List of Season Enders: \nRB R1: Conner ('19), Johnson ('19), CMC ('20), \nCMC ('21), CMC ('22), Taylor ('22), Ekeler ('23)\n"
+            "RB R2: Mixon ('20)\n"
+            "WR R1: Jefferson ('23), Kupp ('23)\n"
+            "WR R2: Hill ('19)")
+
+
+
+#print(draft_adp_merged[draft_adp_merged['draft_outcome'] == 'Season Ender'][['player_display_name', 'position', 'season', 'adp_round']])
 # print(season_winners[season_winners['adp_round'] == 16])
 # print(draft_adp_merged[(draft_adp_merged['position'] == 'RB') & (draft_adp_merged['adp_round']>=4) & (draft_adp_merged['adp_round']<=6) & (draft_adp_merged['rank']<18)].shape)
 # print(draft_adp_merged['draft_outcome'].value_counts())
