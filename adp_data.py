@@ -59,8 +59,48 @@ se_list = ("List of Season Enders: \nRB R1: Conner ('19), Johnson ('19), CMC ('2
             "WR R1: Jefferson ('23), Kupp ('23)\n"
             "WR R2: Hill ('19)")
 
+#cleaning dara for csv export
+
+csv_draft_adp_merged = draft_adp_merged[['player_display_name', 'position', 'season', 'fantasy_points_ppr', 'adp_round', 'adp', 'rank', 'draft_outcome']]
+
+csv_draft_adp_merged.to_csv('data/player_draft_analysis.csv', index=False)
+
+#columns for table of value exports
+
+draft_adp_merged['positional_adp_rank']= draft_adp_merged.groupby(['position', 'season'])['adp'].rank().fillna(99)
+draft_adp_merged['adp_vs_finish'] = draft_adp_merged['positional_adp_rank'] - draft_adp_merged['rank']
+
+drafted_only = draft_adp_merged[draft_adp_merged['positional_adp_rank'] != 99]
+undrafted_only = draft_adp_merged[draft_adp_merged['positional_adp_rank'] == 99]
+
+adp_vs_finish_player_value = drafted_only.groupby('position').apply(lambda x: x.nlargest(10, 'adp_vs_finish'))
+adp_vs_finish_player_bust = drafted_only.groupby('position').apply(lambda x : x.nsmallest(10, 'adp_vs_finish'))
+
+values_display = (adp_vs_finish_player_value[['player_display_name', 'position', 'season', 'positional_adp_rank', 'rank','adp_vs_finish', 'draft_outcome']]
+                  .rename(columns={'player_display_name': 'Player', 'position':'Position', 'season':'Season',
+                                   'positional_adp_rank': 'ADP by Position', 'rank': 'Seasonal Ranking', 'adp_vs_finish': 'Draft vs Finish','draft_outcome':'Seasonal Outcome' }))
+
+busts_display = (adp_vs_finish_player_value[['player_display_name', 'position', 'season', 'positional_adp_rank', 'rank','adp_vs_finish', 'draft_outcome']]
+                  .rename(columns={'player_display_name': 'Player', 'position':'Position', 'season':'Season',
+                                   'positional_adp_rank': 'ADP by Position', 'rank': 'Seasonal Ranking', 'adp_vs_finish': 'Draft vs Finish','draft_outcome':'Seasonal Outcome' }))
+
+undrafted_display = (undrafted_only[['player_display_name', 'position', 'season', 'rank', 'fantasy_points_ppr', 'draft_outcome']]
+                     .rename(columns={'player_display_name': 'Player', 'position':'Position', 'season':'Season', 'rank':'Seasonal Ranking',
+                                      'fantasy_points_ppr':'Seasonal Fantasy Points', 'draft_outcome':'Seasonal Outcome' }))
+
+with open('data/top_values_busts.md', 'w') as f:
+    f.write(f"## Top 10 Values by Position (drafted players)\n\n")
+    f.write(values_display[['Player', 'Position', 'Season', 'ADP by Position', 'Seasonal Ranking','Draft vs Finish', 'Seasonal Outcome']].to_markdown(index=False))
+    f.write(f'\n\n## Top 10 Busts by Position (drafted players)\n\n')
+    f.write(busts_display[['Player', 'Position', 'Season', 'ADP by Position', 'Seasonal Ranking','Draft vs Finish', 'Seasonal Outcome']].to_markdown(index=False))
+    f.write(f'\n\n## Top 10 Undrafted Player Values by Position\n\n')
+    f.write(undrafted_display[['Player', 'Position', 'Season', 'Seasonal Outcome', 'Seasonal Fantasy Points', 'Seasonal Outcome']].to_markdown(index=False))
 
 
+# print(drafted_only.head(50))
+# print(undrafted_only.head(50))
+#print(draft_adp_merged[(draft_adp_merged['position'] == 'RB') & (draft_adp_merged['season'] == 2019)].head())
+#print(csv_draft_adp_merged.head())
 #print(draft_adp_merged[draft_adp_merged['draft_outcome'] == 'Season Ender'][['player_display_name', 'position', 'season', 'adp_round']])
 # print(season_winners[season_winners['adp_round'] == 16])
 # print(draft_adp_merged[(draft_adp_merged['position'] == 'RB') & (draft_adp_merged['adp_round']>=4) & (draft_adp_merged['adp_round']<=6) & (draft_adp_merged['rank']<18)].shape)

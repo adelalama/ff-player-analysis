@@ -30,6 +30,7 @@ pytz==2026.1.post1
 requests==2.32.5
 seaborn==0.13.2
 six==1.17.0
+tabulate==0.10.0
 tqdm==4.67.3
 typing-inspection==0.4.2
 typing_extensions==4.15.0
