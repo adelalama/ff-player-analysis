@@ -28,6 +28,19 @@ season_totals['rank'] = season_totals.groupby(['season', 'position'])['fantasy_p
 fantasy_starters = build_player_pool(season_totals, position_starters, position_starters)
 flex_players = build_player_pool(season_totals, flex_depth, position_starters)
 
+#extracting team w/l ratio
+schedules = nfl.load_schedules(seasons).to_pandas()
+schedules = schedules[schedules['game_type'] == 'REG']
+
+
+# print(schedules.columns.tolist())
+# print(schedules['result'].head(10))
+# print(schedules['game_type'].unique())
+# print(dir(nfl))
+# team_stats = nfl.load_team_stats(seasons)
+# print(team_stats.columns)
+# print(team_stats.head())
+
 # print(fantasy_starters.shape)
 # print(depth_players.shape)
 

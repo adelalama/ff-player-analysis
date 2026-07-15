@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import numpy as np
-from explore_data import seasons
+from explore_data import seasons, schedules
 from explore_data import fantasy_starters
 from utils import clean_name, classify_draft_outcome
 from explore_data import flex_players
@@ -96,6 +96,29 @@ with open('data/top_values_busts.md', 'w') as f:
     f.write(f'\n\n## Top 10 Undrafted Player Values by Position\n\n')
     f.write(undrafted_display[['Player', 'Position', 'Season', 'Seasonal Outcome', 'Seasonal Fantasy Points', 'Seasonal Outcome']].to_markdown(index=False))
 
+#creating teams w/l ratio
+
+
+home_team_perspective = schedules[['season', 'home_team', 'result']].rename(columns={'home_team': 'team'})
+
+# print(home_team_perspective.head())
+away_team_perspective = schedules[['season', 'away_team', 'result']].rename(columns={'away_team': 'team'})
+
+
+away_team_perspective['result'] = away_team_perspective['result'] * -1
+
+results_df = pd.concat([home_team_perspective, away_team_perspective])
+results_df['win'] = np.where(results_df['result']>0, 1, 0)
+
+
+
+team_wins = results_df.groupby(['team', 'season'])['win'].agg(['sum', 'count']).reset_index(drop = False)
+team_wins = team_wins.rename(columns={'sum':'wins', 'count':'games_played'})
+team_wins['wl_ratio'] = team_wins['wins'] / team_wins['games_played']
+
+draft_adp_merged = pd.merge(draft_adp_merged, team_wins, on=['team', 'season'], how = 'left')
+print(draft_adp_merged.head())
+# print(team_wins.head())
 
 # print(drafted_only.head(50))
 # print(undrafted_only.head(50))
