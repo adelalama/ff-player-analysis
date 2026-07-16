@@ -6,7 +6,7 @@ from explore_data import flex_players
 from explore_data import position_starters
 from explore_data import flex_depth
 from explore_data import seasons
-from adp_data import outcome_counts, se_list
+from adp_data import outcome_counts, se_list, draft_adp_merged
 from adp_data import busts_by_round, values_by_round, season_winners, season_enders
 
 
@@ -126,5 +126,21 @@ for idx, (data, title) in enumerate(zip([busts_by_round[busts_by_round['draft_ou
 fig.suptitle('Bust/Value by Round for each position (2019-2023)',
              fontsize=14, fontweight='bold')
 plt.savefig('images/bust_value_by_round_for_position.png', dpi=150, bbox_inches='tight' )
+plt.tight_layout()
+plt.show()
+
+#winning team correlation to fantasy points
+sns.set_theme(style="darkgrid")
+s_plot = sns.lmplot(data = draft_adp_merged, x= 'wl_ratio', y= 'fantasy_points_ppr', hue = 'position',
+                    scatter_kws={'alpha': .5}, height=8, aspect= 1.5)
+s_plot.figure.suptitle('Winning Team Correlation to Fantasy Points by Position (2019-2023)',
+             fontsize=14, fontweight='bold')
+s_plot.set_xlabels('Win/loss Ratio')
+s_plot.set_ylabels('Fantasy Points PPR')
+s_plot.legend.set_bbox_to_anchor((.975, .9))
+s_plot._legend.set_title('Position')
+s_plot.ax.axvline(x =.5, color = 'red', linestyle = 'dashed', linewidth = 1, label='.500 Win Rate', alpha = 0.5)
+
+plt.savefig('images/winning_team_correlation_to_fp_by_position.png', dpi=150, bbox_inches='tight' )
 plt.tight_layout()
 plt.show()
