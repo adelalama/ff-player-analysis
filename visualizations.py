@@ -1,10 +1,8 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
 from explore_data import fantasy_starters
 from explore_data import flex_players
 from explore_data import position_starters
-from explore_data import flex_depth
 from explore_data import seasons
 from adp_data import outcome_counts, se_list, draft_adp_merged
 from adp_data import busts_by_round, values_by_round, season_winners, season_enders
@@ -94,8 +92,6 @@ for idx, (data, title) in enumerate(zip([season_enders, season_winners], ['Seaso
 
 
 axes[0].text(.285, 5.65, s=se_list, fontsize=10, bbox={'facecolor': '#EAEAF2', 'edgecolor': '#CCCCCC', 'boxstyle': 'round'})
-print(axes[0].get_xlim())
-print(axes[0].get_ylim())
 
 
 fig.suptitle('Season Enders & Winners by Draft Capital (2019-2023)',
@@ -125,8 +121,8 @@ for idx, (data, title) in enumerate(zip([busts_by_round[busts_by_round['draft_ou
 
 fig.suptitle('Bust/Value by Round for each position (2019-2023)',
              fontsize=14, fontweight='bold')
-plt.savefig('images/bust_value_by_round_for_position.png', dpi=150, bbox_inches='tight' )
 plt.tight_layout(pad = 3)
+plt.savefig('images/bust_value_by_round_for_position.png', dpi=150, bbox_inches='tight' )
 plt.show()
 
 #winning team correlation to fantasy points
@@ -137,10 +133,10 @@ s_plot.figure.suptitle('Winning Team Correlation to Fantasy Points by Position (
              fontsize=14, fontweight='bold')
 s_plot.set_xlabels('Win/loss Ratio')
 s_plot.set_ylabels('Fantasy Points PPR')
-s_plot.legend.set_bbox_to_anchor((.975, .9))
+s_plot.legend.set_bbox_to_anchor((.99, .9))
 s_plot._legend.set_title('Position')
 s_plot.ax.axvline(x =.5, color = 'red', linestyle = 'dashed', linewidth = 1, label='.500 Win Rate', alpha = 0.5)
 
+plt.subplots_adjust(top= .93)
 plt.savefig('images/winning_team_correlation_to_fp_by_position.png', dpi=150, bbox_inches='tight' )
-plt.tight_layout()
 plt.show()

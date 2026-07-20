@@ -30,8 +30,6 @@ starters_adp_merged = fantasy_starters.merge(adp_data, on=['clean_name', 'season
 flex_players['clean_name'] = flex_players['player_display_name'].apply(clean_name)
 draft_adp_merged = flex_players.merge(adp_data, on=['clean_name', 'season'], how='left')
 
-missing_adp = draft_adp_merged[draft_adp_merged['adp'].isna()]
-
 draft_adp_merged['draft_outcome'] = draft_adp_merged.apply(classify_draft_outcome, axis = 1)
 
 outcome_counts = (draft_adp_merged[draft_adp_merged['draft_outcome'].notna()].groupby(['position','draft_outcome'])
@@ -80,7 +78,7 @@ values_display = (adp_vs_finish_player_value[['player_display_name', 'position',
                   .rename(columns={'player_display_name': 'Player', 'position':'Position', 'season':'Season',
                                    'positional_adp_rank': 'ADP by Position', 'rank': 'Seasonal Ranking', 'adp_vs_finish': 'Draft vs Finish','draft_outcome':'Seasonal Outcome' }))
 
-busts_display = (adp_vs_finish_player_value[['player_display_name', 'position', 'season', 'positional_adp_rank', 'rank','adp_vs_finish', 'draft_outcome']]
+busts_display = (adp_vs_finish_player_bust[['player_display_name', 'position', 'season', 'positional_adp_rank', 'rank','adp_vs_finish', 'draft_outcome']]
                   .rename(columns={'player_display_name': 'Player', 'position':'Position', 'season':'Season',
                                    'positional_adp_rank': 'ADP by Position', 'rank': 'Seasonal Ranking', 'adp_vs_finish': 'Draft vs Finish','draft_outcome':'Seasonal Outcome' }))
 
@@ -94,14 +92,14 @@ with open('data/top_values_busts.md', 'w') as f:
     f.write(f'\n\n## Top 10 Busts by Position (drafted players)\n\n')
     f.write(busts_display[['Player', 'Position', 'Season', 'ADP by Position', 'Seasonal Ranking','Draft vs Finish', 'Seasonal Outcome']].to_markdown(index=False))
     f.write(f'\n\n## Top 10 Undrafted Player Values by Position\n\n')
-    f.write(undrafted_display[['Player', 'Position', 'Season', 'Seasonal Outcome', 'Seasonal Fantasy Points', 'Seasonal Outcome']].to_markdown(index=False))
+    f.write(undrafted_display[['Player', 'Position', 'Season', 'Seasonal Fantasy Points', 'Seasonal Outcome']].to_markdown(index=False))
 
 #creating teams w/l ratio
 
 
 home_team_perspective = schedules[['season', 'home_team', 'result']].rename(columns={'home_team': 'team'})
 
-# print(home_team_perspective.head())
+
 away_team_perspective = schedules[['season', 'away_team', 'result']].rename(columns={'away_team': 'team'})
 
 
@@ -117,19 +115,3 @@ team_wins = team_wins.rename(columns={'sum':'wins', 'count':'games_played'})
 team_wins['wl_ratio'] = team_wins['wins'] / team_wins['games_played']
 
 draft_adp_merged = pd.merge(draft_adp_merged, team_wins, on=['team', 'season'], how = 'left')
-print(draft_adp_merged.head())
-# print(team_wins.head())
-
-# print(drafted_only.head(50))
-# print(undrafted_only.head(50))
-#print(draft_adp_merged[(draft_adp_merged['position'] == 'RB') & (draft_adp_merged['season'] == 2019)].head())
-#print(csv_draft_adp_merged.head())
-#print(draft_adp_merged[draft_adp_merged['draft_outcome'] == 'Season Ender'][['player_display_name', 'position', 'season', 'adp_round']])
-# print(season_winners[season_winners['adp_round'] == 16])
-# print(draft_adp_merged[(draft_adp_merged['position'] == 'RB') & (draft_adp_merged['adp_round']>=4) & (draft_adp_merged['adp_round']<=6) & (draft_adp_merged['rank']<18)].shape)
-# print(draft_adp_merged['draft_outcome'].value_counts())
-# print(draft_adp_merged[draft_adp_merged['draft_outcome'] == 'Value'].groupby('position'))
-#print(outcome_by_round[outcome_by_round['draft_outcome'].isin(['Season Winner', 'Season Ender'])])
-#print(draft_adp_merged[(draft_adp_merged['rank'] >= 30) & (draft_adp_merged['adp']< 18)].shape)
-# print(draft_adp_merged[draft_adp_merged['adp_round'] == 16])
-# print(draft_adp_merged[(draft_adp_merged['adp_round'] == 16) & (draft_adp_merged['position'].isin(['QB', 'TE']))]['draft_outcome'].value_counts())

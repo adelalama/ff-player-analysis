@@ -1,6 +1,13 @@
 import pandas as pd
 
 def build_player_pool(season_totals, pool_dict, mean_dict):
+    """
+    Builds filtered player pool with positional means and differentials
+    Args:
+    season_totals: Data frame with aggregated season stats
+    pool_dict: Dictionary of players pool by position
+    mean_dict: Dictionary calculating mean for each pool by position
+    """
     player_pool = season_totals[season_totals['rank']<= season_totals['position'].map(pool_dict)]
     starter_pool = season_totals[season_totals['rank']<= season_totals['position'].map(mean_dict)]
 
@@ -17,7 +24,7 @@ def build_player_pool(season_totals, pool_dict, mean_dict):
 
     return player_pool
 
-def clean_name (name):
+def clean_name(name):
     suffixes = ['Jr.', 'Sr.', 'III', 'II', 'IV']
     special_chars = ["'",'-', '.']
 
